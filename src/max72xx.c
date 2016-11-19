@@ -26,13 +26,15 @@ void draw_buffer(uint8_t buffer[8][4]) {
 }
 
 void transfer_data(uint8_t data[4][2]) {
-    // Pull SS low to start transmission
+    // Pull SS low to signal start of transmission
     PORTB &= ~(1 << DDB2);
+
     for (uint8_t i = 4; i > 0; --i) {
         spi_tranceiver(data[i - 1][0]);
         spi_tranceiver(data[i - 1][1]);
     }
-    // Pull SS high to end transmission
+
+    // Pull SS high to signal end of transmission
     PORTB |= (1 << DDB2);
 }
 
