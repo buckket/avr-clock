@@ -13,3 +13,6 @@ install:
 
 script:
   - platformio run
+
+notifications:
+  email: false
