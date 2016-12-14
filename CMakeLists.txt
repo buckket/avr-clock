@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
-project(avr-matrix)
+project(avr-clock)
 
 include(CMakeListsPrivate.txt)
 
@@ -45,4 +45,4 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable(${PROJECT_NAME} ${SRC_LIST} src/main.c src/digits.h src/spi.c src/spi.h src/max72xx.c src/max72xx.h src/clock.c src/clock.h src/digits.c src/watchdog.c src/watchdog.h src/sleep.c src/sleep.h src/adc.c src/adc.h src/uart.c src/uart.h)
+add_executable(${PROJECT_NAME} ${SRC_LIST})

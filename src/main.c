@@ -1,65 +1,50 @@
-#include <util/delay.h>
-
+#include <avr/power.h>
+#include <avr/interrupt.h>
 
 #include "spi.h"
+#include "twi.h"
 #include "max72xx.h"
 #include "clock.h"
-#include "watchdog.h"
+#include "timer.h"
 #include "sleep.h"
+#include "ds3231.h"
+
+
+time_struct *pclock;
+
 
 void setup(void) {
-    setup_watchdog();
+    //setup_watchdog();
+    setup_timer();
     adc_init();
+    uart_init();
     spi_init_master();
+    twi_init();
     init_display();
 }
 
 int main(void) {
     setup();
 
+    time_struct clock_time;
+    pclock = &clock_time;
 
+    rtc_read_time(pclock);
+    rtc_enable_sqw();
+
+    enable_clock_interrupt();
+    sei();
 
     // Set intensity and thus enable display
     send_command(DISP_ALL, OP_INTENSITY, 8);
 
-    draw_clock(20, 14, 30);
-
-    uint8_t minutes = 0;
     while (1) {
-        for (uint8_t i = 0; i < 60; ++i) {
-            draw_clock(20, minutes % 60, i);
-            adjust_brightness();
-            enter_sleep();
-        }
-        minutes++;
+        draw_clock(pclock);
+        adjust_brightness();
+        enter_sleep();
     }
+}
 
-    /*
-    while (1) {
-        for (int i = 0; i < 16; ++i) {
-            send_command(DISP_ALL, OP_INTENSITY, i);
-            _delay_ms(500);
-        }
-    }
-    */
-
-    /*
-    while (1) {
-        for (int i = 1; i < 9; ++i) {
-            if (i != 1) {
-                send_command(15, i - 1, 0);
-            }
-            send_command(15, i, 255);
-            _delay_ms(40);
-        }
-        for (int i = 8; i > 0; --i) {
-            if (i != 8) {
-                send_command(15, i + 1, 0);
-            }
-            send_command(15, i, 255);
-            _delay_ms(40);
-        }
-    }
-    */
-    return 1;
+ISR(INT0_vect) {
+    increment_time(pclock);
 }

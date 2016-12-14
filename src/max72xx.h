@@ -1,3 +1,6 @@
+#ifndef AVR_CLOCK_MAX72XX_H
+#define AVR_CLOCK_MAX72XX_H
+
 #include "spi.h"
 
 #define DISP_ALL        15
@@ -30,3 +33,5 @@ void draw_buffer(uint8_t buffer[8][4]);
 void transfer_data(uint8_t data[4][2]);
 
 void send_command(uint8_t device, uint8_t opcode, uint8_t payload);
+
+#endif // AVR_CLOCK_MAX72XX_H

@@ -20,7 +20,7 @@ const uint8_t digits[10][8] PROGMEM = {
 // we use this lookup-table which tells how
 // many pixels have to be on for each second.
 const uint8_t pixels[60] PROGMEM = {
-        0, 1, 1, 2, 2, 3, 3, 4, 4, 5,
+        0, 1, 1, 2, 2, 3, 3, 4,  4,  5,
         5, 6, 7, 7, 8, 8, 9, 9, 10, 10,
         11, 11, 12, 12, 13, 14, 14, 15,
         15, 16, 16, 17, 17, 18, 18, 19,

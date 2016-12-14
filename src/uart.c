@@ -28,3 +28,10 @@ void uart_transmit(uint8_t data) {
     // Clear flag
     UCSR0A |= (1 << TXC0);
 }
+
+void uart_puts(char *string) {
+    while (*string) {
+        uart_transmit((uint8_t) *string);
+        string++;
+    }
+}
